@@ -62,7 +62,7 @@ pipeline {
                 //TODO: Create a new app and expose the service
                 sh '''
                         oc project ${DEV_PROJECT}
-                        oc new-app --name ${APP_NAME} openshift/jenkins-agent-nodejs:latest~${APP_GIT_URL} \
+                        oc new-app --name ${APP_NAME} nodejs:12~${APP_GIT_URL} \
                         --build-env=npm_config_registry=${NEXUS_SERVER} --context-dir=${APP_NAME}
                         oc expose svc/${APP_NAME}
                    '''
