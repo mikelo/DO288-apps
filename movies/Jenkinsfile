@@ -86,7 +86,7 @@ pipeline {
                 // TODO: Expose the ${APP_NAME} service for external access
                 sh '''
                 oc project ${DEV_PROJECT}                
-                oc new-app --as-deployment-config --name $APP_NAME -i ${APP_NAME}:latest ${APP_GIT_URL} \
+                oc new-app --as-deployment-config --name $APP_NAME:latest -i ${APP_NAME}:latest ${APP_GIT_URL} \
                 --build-env MAVEN_MIRROR_URL=$NEXUS_SERVER --context-dir $APP_NAME
                 oc expose svc/${APP_NAME}
                 '''
