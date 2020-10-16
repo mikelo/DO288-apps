@@ -12,8 +12,8 @@ pipeline {
 
     environment {
         //TODO: Customize these variables for your environment
-        DEV_PROJECT = "mikelo-movies-dev"
-        STAGE_PROJECT = "mikelo-movies-stage"
+        DEV_PROJECT = "michele-orlandi-movies-dev"
+        STAGE_PROJECT = "michele-orlandi-movies-stage"
         APP_GIT_URL = "https://github.com/mikelo/DO288-apps.git"
         NEXUS_SERVER = "http://nexus-common.apps.eu45.prod.nextcle.com/repository/java"
 
@@ -86,10 +86,9 @@ pipeline {
                 // TODO: Expose the ${APP_NAME} service for external access
                 sh '''
                 oc project ${DEV_PROJECT}                
-                oc new-app --as-deployment-config --name $APP_NAME -i ${APP_NAME}:latest java:8~${APP_GIT_URL}#review-cicd \
+                oc new-app --as-deployment-config --name $APP_NAME -i ${APP_NAME}:latest java:8~${APP_GIT_URL} \
                 --build-env MAVEN_MIRROR_URL=$NEXUS_SERVER --context-dir $APP_NAME
                 oc expose svc/${APP_NAME}
-
                 '''
             }
         }
