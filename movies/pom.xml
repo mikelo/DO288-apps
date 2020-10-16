@@ -45,7 +45,7 @@
 					<rulesets>
 						<ruleset>/category/java/bestpractices.xml</ruleset>
 					</rulesets>
-					<failOnViolation>true</failOnViolation>
+					<failOnViolation>false</failOnViolation>
 					<printFailingErrors>true</printFailingErrors>
 				</configuration>
 			</plugin>
