@@ -71,7 +71,7 @@ pipeline {
                         oc delete all -l app=${APP_NAME} -n ${DEV_PROJECT}
                         oc delete all -l build=${APP_NAME} -n ${DEV_PROJECT}
                         sleep 5
-                        #oc new-build java:8 --name=${APP_NAME} --binary=true -n ${DEV_PROJECT}
+                        oc new-build java:8 --name=${APP_NAME} --binary=true -n ${DEV_PROJECT}
                    '''
 
                 echo '### Creating a new app in DEV env ###'
@@ -86,7 +86,7 @@ pipeline {
                 // TODO: Expose the ${APP_NAME} service for external access
                 sh '''
                 oc project ${DEV_PROJECT}                
-                oc new-app --as-deployment-config --name $APP_NAME -i ${APP_NAME}:latest ${APP_GIT_URL} \
+                oc new-app --as-deployment-config --name $APP_NAME java:8~${APP_GIT_URL} \
                 --build-env MAVEN_MIRROR_URL=$NEXUS_SERVER --context-dir $APP_NAME
                 oc expose svc/${APP_NAME}
                 '''
