@@ -75,13 +75,13 @@ pipeline {
                    '''
 
                 echo '### Creating a new app in DEV env ###'
-                script {
-                    openshift.withCluster() {
-                      openshift.withProject(env.DEV_PROJECT) {
-                        openshift.selector("bc", "${APP_NAME}").startBuild("--from-file=${APP_NAME}/target/${APP_NAME}.jar", "--wait=true", "--follow=true")
-                      }
-                    }
-                }
+                // script {
+                //     openshift.withCluster() {
+                //       openshift.withProject(env.DEV_PROJECT) {
+                //         openshift.selector("bc", "${APP_NAME}").startBuild("--from-file=${APP_NAME}/target/${APP_NAME}.jar", "--wait=true", "--follow=true")
+                //       }
+                //     }
+                // }
                 // TODO: Create a new OpenShift application based on the ${APP_NAME}:latest image stream
                 // TODO: Expose the ${APP_NAME} service for external access
                 sh '''
