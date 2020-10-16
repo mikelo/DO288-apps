@@ -12,8 +12,8 @@ pipeline {
 
     environment {
         //TODO: Customize these variables for your environment
-        DEV_PROJECT = "michele-orlandi-movies-dev"
-        STAGE_PROJECT = "michele-orlandi-movies-stage"
+        DEV_PROJECT = "michele-orlandi-it-movies-dev"
+        STAGE_PROJECT = "michele-orlandi-it-movies-stage"
         APP_GIT_URL = "https://github.com/mikelo/DO288-apps.git"
         NEXUS_SERVER = "http://nexus-common.apps.eu45.prod.nextcle.com/repository/java"
 
