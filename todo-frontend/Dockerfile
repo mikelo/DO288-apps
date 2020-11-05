@@ -7,7 +7,7 @@ LABEL updatedDate="2019-08-01"
 
 ENV BACKEND_HOST=localhost:8080
 
-USER root
+# USER root
 RUN yum install -y --disableplugin=subscription-manager --nodocs \
   nginx nginx-mod-http-perl && \
  && yum clean all
@@ -24,6 +24,6 @@ EXPOSE 8080
 
 USER 1001
 
-# CMD nginx -g "daemon off;"
-CMD nginx -s start
+CMD nginx -g "daemon off;"
+# CMD nginx -s start
 
