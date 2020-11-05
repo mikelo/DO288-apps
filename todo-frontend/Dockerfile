@@ -5,7 +5,8 @@ LABEL description="To Do List application front-end"
 LABEL creationDate="2017-12-25"
 LABEL updatedDate="2019-08-01"
 
-ENV BACKEND_HOST=localhost:8080
+# ENV BACKEND_HOST=localhost:8080
+ENV BACKEND_HOST=localhost
 
 # USER root
 RUN yum install -y --disableplugin=subscription-manager --nodocs nginx nginx-mod-http-perl \
