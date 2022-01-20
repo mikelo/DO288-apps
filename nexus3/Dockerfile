@@ -55,8 +55,9 @@ ADD solo.json.erb /var/chef/solo.json.erb
 
 # Install using chef-solo
 # Chef version locked to avoid needing to accept the EULA on behalf of whomever builds the image
-RUN yum install -y --disableplugin=subscription-manager hostname procps \
-    && curl -L https://www.getchef.com/chef/install.sh | bash -s -- -v 14.12.9 \
+# RUN yum install -y --disableplugin=subscription-manager hostname procps \
+RUN dnf install -y --disableplugin=subscription-manager hostname procps \
+    && curl -L https://omnitruck.chef.io/install.sh | bash -s -- -v 14.12.9 \
     && /opt/chef/embedded/bin/erb /var/chef/solo.json.erb > /var/chef/solo.json \
     && chef-solo \
        --recipe-url ${NEXUS_REPOSITORY_MANAGER_COOKBOOK_URL} \
@@ -66,7 +67,7 @@ RUN yum install -y --disableplugin=subscription-manager hostname procps \
     && rm -rf /opt/chefdk \
     && rm -rf /var/cache/yum \
     && rm -rf /var/chef \
-    && yum clean all
+    && dnf clean all
 
 VOLUME ${NEXUS_DATA}
 
