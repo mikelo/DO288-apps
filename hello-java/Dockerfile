@@ -20,7 +20,7 @@ COPY  run-app.sh /opt/app-root/bin/
 # RUN   chown -R wildfly:wildfly /opt/app-root && \
 #       chmod -R 700 /opt/app-root
 RUN   chgrp -R 0 /opt/app-root/ && \
-      chown 1001 -R /opt/app-root/ && \
+      chown -R 1001 /opt/app-root/ && \
       chmod +xr /opt/app-root/bin/*
 EXPOSE 8080
 
