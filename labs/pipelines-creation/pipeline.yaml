@@ -12,10 +12,10 @@ spec:
       default: "exchange"
     - name: GIT_REPO
       type: string
-      default: "https://github.com/RedHatTraining/DO288-apps/"
+      default: "https://github.com/mikelo/DO288-apps/"
     - name: GIT_REVISION
       type: string
-      default: "main"
+      default: "pipeline"
     - name: APP_PATH
       type: string
       default: "labs/pipelines-creation/"
