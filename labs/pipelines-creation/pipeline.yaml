@@ -110,7 +110,7 @@ spec:
         - name: SKIP_PUSH
           value: "true"
       runAfter:
-        - fetch-repository
+        - app-version
       workspaces:
         - name: source
           workspace: shared          
