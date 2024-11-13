@@ -16,6 +16,16 @@ spec:
       type: string
     - name: NODE_IMAGE
       type: string
-      default: "registry.ocp4.example.com:8443/ubi8/nodejs-16:latest"
+      default: "registry.access.redhat.com/ubi8/nodejs-16:latest"
   steps:
-    - name: TODO
+    - name: npm-run
+      image: $(params.NODE_IMAGE)
+      script: |
+        npm $(params.ARGS) | tee $(results.output.path)
+      workingDir: $(workspaces.source.path)/$(params.CONTEXT)
+      env:
+        - name: CI
+          value: "true"
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
