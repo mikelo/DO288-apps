@@ -75,6 +75,12 @@ spec:
       params:
         - name: CONTEXT
           value: $(params.APP_PATH)
+        - name: APP_PATH
+          value: $(params.APP_PATH)
+        - name: DEPLOY_APP_NAME
+          value: $(params.DEPLOY_APP_NAME)
+        - name: DEPLOY_ARTIFACT_NAME
+          value: $(params.DEPLOY_ARTIFACT_NAME)
         # - name: ARGS
         #   value: install --no-package-lock
       runAfter:

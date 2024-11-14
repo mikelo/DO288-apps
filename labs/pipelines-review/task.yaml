@@ -20,7 +20,7 @@ spec:
     - name: build
       image: $(params.NODE_IMAGE)
       script: |
-        # cd  "$(workspaces.manifest-dir.path)/$(params.MVN_APP_PATH)" || exit 1
+        cd  "$(workspaces.manifest-dir.path)/$(params.APP_PATH)" || exit 1
         oc new-build --name=$(params.DEPLOY_APP_NAME) \
           -l app=$(params.DEPLOY_APP_NAME) --binary=true \
           --image-stream=openshift/java:8 || echo "BC already exists"
