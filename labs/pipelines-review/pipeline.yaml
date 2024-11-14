@@ -5,7 +5,7 @@ metadata:
 spec:
   workspaces:
     - name: shared
-    # - name: maven_configs
+    - name: maven_configs
   params:
     - name: GIT_REPO
       type: string
@@ -58,7 +58,7 @@ spec:
         - name: TLSVERIFY
           value: "false"
         - name: SKIP_PUSH
-          value: "true"
+          value: "false"
       runAfter:
         - fetch-repository
       workspaces:

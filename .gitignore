@@ -74,3 +74,4 @@ nb-configuration.xml
 ## JavaScript
 ##########################
 node_modules/
+**/package-lock.json
