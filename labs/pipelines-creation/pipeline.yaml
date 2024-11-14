@@ -101,6 +101,7 @@ spec:
       params:
         - name: IMAGE
           value: image-registry.openshift-image-registry.svc:5000/pipelines-creation/$(params.IMAGE_NAME):$(tasks.app-version.results.output)
+          # value: image-registry.openshift-image-registry.svc:5000/pipelines-creation/$(params.IMAGE_NAME):latest
         - name: DOCKERFILE
           value: Containerfile
         - name: CONTEXT
@@ -110,6 +111,8 @@ spec:
         - name: SKIP_PUSH
           value: "true"
       runAfter:
+        - npm-test
+        - npm-lint
         - app-version
       workspaces:
         - name: source
