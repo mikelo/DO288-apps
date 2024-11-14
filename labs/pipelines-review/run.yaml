@@ -11,7 +11,7 @@ spec:
     - name: GIT_REPO
       value: 'https://github.com/mikelo/DO288-apps'
     - name: GIT_REVISION
-      value: master
+      value: pipeline
     - name: MVN_APP_PATH
       value: builds-applications/apps/vertx-site
     - name: DEPLOY_ARTIFACT_NAME
