@@ -18,7 +18,8 @@ spec:
       default: "pipeline"
     - name: APP_PATH
       type: string
-      default: "labs/pipelines-creation/"
+      default: "apps/pipelines-creation/exchange"
+
   tasks:
     - name: fetch-repository
       taskRef:
