@@ -9,10 +9,10 @@ spec:
   params:
     - name: GIT_REPO
       type: string
-      default: "https://git.ocp4.example.com/developer/DO288-apps"
+      default: "https://github.com/mikeloDO288-apps"
     - name: GIT_REVISION
       type: string
-      default: "master"
+      default: "pipeline"
     - name: MVN_APP_PATH
       type: string
       default: "builds-applications/apps/vertx-site"
@@ -24,33 +24,60 @@ spec:
       default: "vertx-site"
 
   tasks:
-    - name: clone-repository
+    - name: fetch-repository
       taskRef:
-        # TODO
+        name: git-clone
+        kind: ClusterTask
       params:
-        # TODO
+        - name: url
+          value: $(params.GIT_REPO)
+        - name: revision
+          value: $(params.GIT_REVISION)
+        - name: subdirectory
+          value: ""
         - name: deleteExisting
-          value: 'true'
+          value: "true"
         - name: sslVerify
-          value: 'false'
+          value: "false"
       workspaces:
-        # TODO
+        - name: output
+          workspace: shared
 
     - name: build
       taskRef:
-        # TODO
+        name: buildah
+        kind: ClusterTask
       params:
-        # TODO
+        - name: IMAGE
+          value: image-registry.openshift-image-registry.svc:5000/pipelines-review/$(params.IMAGE_NAME):$(tasks.app-version.results.output)
+          # value: image-registry.openshift-image-registry.svc:5000/pipelines-review/$(params.IMAGE_NAME):latest
+        - name: DOCKERFILE
+          value: Containerfile
+        - name: CONTEXT
+          value: $(params.APP_PATH)
+        - name: TLSVERIFY
+          value: "false"
+        - name: SKIP_PUSH
+          value: "true"
+      runAfter:
+        - git-clone
       workspaces:
-        # TODO
+        - name: source
+          workspace: shared      
 
     - name: oc-deploy
       taskRef:
-        # TODO
+        name: bash
+        kind: Task
       workspaces:
-        # TODO
+        - name: source
+          workspace: shared
       params:
-        # TODO
+        - name: CONTEXT
+          value: $(params.APP_PATH)
+        - name: ARGS
+          value: install --no-package-lock
+      runAfter:
 
     - name: skopeo-copy
       taskRef:

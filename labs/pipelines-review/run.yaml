@@ -9,7 +9,7 @@ metadata:
 spec:
   params:
     - name: GIT_REPO
-      value: 'https://git.ocp4.example.com/developer/DO288-apps'
+      value: 'https://github.com/mikelo/DO288-apps'
     - name: GIT_REVISION
       value: master
     - name: MVN_APP_PATH
@@ -33,7 +33,7 @@ spec:
           resources:
             requests:
               storage: 1Gi
-          storageClassName: nfs-storage
+          # storageClassName: nfs-storage
           volumeMode: Filesystem
         status: {}
     - name: maven_config
