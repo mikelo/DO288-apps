@@ -3,19 +3,24 @@ kind: Task
 metadata:
   name: maven-task
 spec:
-- name: CONTEXT
-  type: string
-  default: "."
-- name: ARGS
-  type: string
-- name: NODE_IMAGE
-  type: string
-  default: "registry.access.redhat.com/ubi8/openjdk-11:1.16-3"
+  workspaces:
+    - name: source
+  results:
+    - name: output
+  params:
+  - name: CONTEXT
+    type: string
+    default: "."
+  # - name: ARGS
+  #   type: string
+  - name: NODE_IMAGE
+    type: string
+    default: "registry.access.redhat.com/ubi8/openjdk-11:1.16-3"
   steps:
     - name: build
       image: $(params.NODE_IMAGE)
       script: |
-        ./oc-new-app.sh
+        ./oc-new-app.sh | tee $(results.output.path)
       workingDir: $(workspaces.source.path)/$(params.CONTEXT)
       env:
         - name: CI

@@ -5,15 +5,15 @@ metadata:
 spec:
   workspaces:
     - name: shared
-    - name: maven_config
+    # - name: maven_configs
   params:
     - name: GIT_REPO
       type: string
-      default: "https://github.com/mikeloDO288-apps"
+      default: "https://github.com/mikelo/DO288-apps"
     - name: GIT_REVISION
       type: string
       default: "pipeline"
-    - name: MVN_APP_PATH
+    - name: APP_PATH
       type: string
       default: "builds-applications/apps/vertx-site"
     - name: DEPLOY_ARTIFACT_NAME
@@ -49,8 +49,8 @@ spec:
         kind: ClusterTask
       params:
         - name: IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/pipelines-review/$(params.IMAGE_NAME):$(tasks.app-version.results.output)
-          # value: image-registry.openshift-image-registry.svc:5000/pipelines-review/$(params.IMAGE_NAME):latest
+          # value: image-registry.openshift-image-registry.svc:5000/pipelines-review/$(params.DEPLOY_APP_NAME):$(tasks.app-version.results.output)
+          value: image-registry.openshift-image-registry.svc:5000/pipelines-review/$(params.DEPLOY_APP_NAME):latest
         - name: DOCKERFILE
           value: Containerfile
         - name: CONTEXT
@@ -60,14 +60,14 @@ spec:
         - name: SKIP_PUSH
           value: "true"
       runAfter:
-        - git-clone
+        - fetch-repository
       workspaces:
         - name: source
           workspace: shared      
 
     - name: oc-deploy
       taskRef:
-        name: bash
+        name: maven-task
         kind: Task
       workspaces:
         - name: source
@@ -75,12 +75,12 @@ spec:
       params:
         - name: CONTEXT
           value: $(params.APP_PATH)
-        - name: ARGS
-          value: install --no-package-lock
+        # - name: ARGS
+        #   value: install --no-package-lock
       runAfter:
-
-    - name: skopeo-copy
-      taskRef:
-        # TODO
-      params:
-        # TODO
+        - build
+    # - name: skopeo-copy
+    #   taskRef:
+    #     # TODO
+    #   params:
+    #     # TODO
