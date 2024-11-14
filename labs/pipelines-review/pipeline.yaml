@@ -67,7 +67,7 @@ spec:
 
     - name: oc-deploy
       taskRef:
-        name: maven-task
+        name: openshift-client
         kind: Task
       workspaces:
         - name: source
