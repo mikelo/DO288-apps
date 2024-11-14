@@ -1,9 +1,9 @@
-FROM nodejs:16-ubi8 as builder
+FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:16-ubi8 as builder
 ADD . .
 # Avoid using "npm ci" to prevent problems with the private NPM registry in the lab environment
 RUN npm install --omit dev
 
-FROM nodejs:16-ubi8
+FROM image-registry.openshift-image-registry.svc:5000/openshift/nodejs:16-ubi8
 COPY --from=builder . .
 EXPOSE 3000
 CMD npm run -d start
