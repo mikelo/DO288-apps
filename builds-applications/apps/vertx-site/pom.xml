@@ -59,6 +59,7 @@
   </dependencies>
 
   <build>
+    <directory>target</directory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
