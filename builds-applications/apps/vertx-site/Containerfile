@@ -1,0 +1,8 @@
+FROM registry.access.redhat.com/ubi8/openjdk-11:1.16-3 AS builder
+ADD . .
+RUN mvn clean install
+
+FROM registry.access.redhat.com/ubi8/openjdk-11:1.16-3
+COPY --from=builder . .
+EXPOSE 3000
+CMD mvn exec:java
