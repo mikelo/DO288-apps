@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/ubi8/openjdk-11:1.16-3 AS builder
 ADD . .
-RUN mvn clean package -s /path/to/settings.xml
+RUN mvn clean package -s settings.xml
 
 # FROM registry.access.redhat.com/ubi8/openjdk-11:1.16-3
 # COPY --from=builder . .
