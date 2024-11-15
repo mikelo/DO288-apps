@@ -24,18 +24,3 @@ spec:
   timeout: 1h0m0s
   workspaces:
     - name: shared
-      volumeClaimTemplate:
-        metadata:
-          creationTimestamp: null
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 1Gi
-          # storageClassName: nfs-storage
-          volumeMode: Filesystem
-        status: {}
-    - name: maven_config
-      secret:
-        secretName: mvn-settings

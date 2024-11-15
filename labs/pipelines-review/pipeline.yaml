@@ -42,35 +42,12 @@ spec:
       workspaces:
         - name: output
           workspace: shared
-
-    - name: build
-      taskRef:
-        name: buildah
-        kind: ClusterTask
-      params:
-        - name: IMAGE
-          # value: image-registry.openshift-image-registry.svc:5000/pipelines-review/$(params.DEPLOY_APP_NAME):$(tasks.app-version.results.output)
-          value: image-registry.openshift-image-registry.svc:5000/pipelines-review/$(params.DEPLOY_APP_NAME):latest
-        - name: DOCKERFILE
-          value: Containerfile
-        - name: CONTEXT
-          value: $(params.APP_PATH)
-        - name: TLSVERIFY
-          value: "false"
-        - name: SKIP_PUSH
-          value: "false"
-      runAfter:
-        - fetch-repository
-      workspaces:
-        - name: source
-          workspace: shared      
-
     - name: oc-deploy
       taskRef:
         name: openshift-client
         kind: Task
       workspaces:
-        - name: source
+        - name: output
           workspace: shared
       params:
         - name: CONTEXT
@@ -83,8 +60,21 @@ spec:
           value: $(params.DEPLOY_ARTIFACT_NAME)
         # - name: ARGS
         #   value: install --no-package-lock
+      steps:
+        - name: deploy
+          # image: $(params.NODE_IMAGE)
+          script: |
+            cd  "$(workspaces.output.path)/$(params.APP_PATH)" || exit 1
+            oc new-build --name=$(params.DEPLOY_APP_NAME) \
+              -l app=$(params.DEPLOY_APP_NAME) --binary=true \
+              --image-stream=openshift/java:8 || echo "BC already exists"
+            oc start-build $(params.DEPLOY_APP_NAME) --wait=true \
+                --from-file=$(params.DEPLOY_ARTIFACT_NAME)
+            oc new-app $(params.DEPLOY_APP_NAME):latest \
+                --name $(params.DEPLOY_APP_NAME) || echo "application exists"
+            oc expose svc $(params.DEPLOY_APP_NAME) || echo "route exists"              
       runAfter:
-        - build
+        - fetch-repository
     # - name: skopeo-copy
     #   taskRef:
     #     # TODO
