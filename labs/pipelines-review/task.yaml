@@ -22,8 +22,6 @@ spec:
     type: string
   - name: DEPLOY_ARTIFACT_NAME
     type: string
-  - name: IMAGE
-    type: string
   steps:
     - name: build
       image: $(params.NODE_IMAGE)
