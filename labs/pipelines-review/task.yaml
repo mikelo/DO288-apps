@@ -20,29 +20,11 @@ spec:
     type: string
   - name: DEPLOY_ARTIFACT_NAME
     type: string
-  apiVersion: v1
-  kind: Secret
-  metadata:
-    name: mvn-settings
-  type: Opaque
-  data:
-    settings.xml: |
-      <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-      <settings>
-              <mirrors>
-              <mirror>
-              <id>internal-repository</id>
-              <name>Maven Repository Manager for classroom</name>
-              <url>http://nexus-common.apps.eu410.prod.nextcle.com/repository/java</url>
-              <mirrorOf>*</mirrorOf>
-              </mirror>
-            </mirrors>
-      </settings>
   steps:
     - name: build
       image: $(params.NODE_IMAGE)
       script: |
-        mvn clean package -s $(workspaces.maven_config)/settings.xml
+        mvn clean package -s $(workspaces.secret.path)/settings.xml
       workingDir: $(workspaces.source.path)/$(params.APP_PATH)
       env:
         - name: CI
@@ -52,7 +34,4 @@ spec:
         runAsUser: 65532
   workspaces:
     - name: source
-      workspace: shared
-    - name: maven_config
-      secret:
-        secretName: mvn-settings
+    - name: secret

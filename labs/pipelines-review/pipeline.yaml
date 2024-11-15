@@ -5,11 +5,14 @@ metadata:
 spec:
   workspaces:
     - name: shared
-    # - name: maven_configs
+    - name: maven_config
   params:
+    - name: IMAGE_NAME
+      type: string
+      default: "vertx-site"
     - name: GIT_REPO
       type: string
-      default: "https://github.com/mikelo/DO288-apps"
+      default: "https://github.com/mikelo/DO288-apps/"
     - name: GIT_REVISION
       type: string
       default: "pipeline"
@@ -22,7 +25,6 @@ spec:
     - name: DEPLOY_APP_NAME
       type: string
       default: "vertx-site"
-
   tasks:
     - name: fetch-repository
       taskRef:
@@ -42,12 +44,12 @@ spec:
       workspaces:
         - name: output
           workspace: shared
-    - name: oc-deploy
+    - name: deploy-app
       taskRef:
         name: openshift-client
-        kind: Task
+        kind: ClusterTask
       workspaces:
-        - name: output
+        - name: manifest-dir
           workspace: shared
       params:
         - name: CONTEXT
@@ -58,13 +60,9 @@ spec:
           value: $(params.DEPLOY_APP_NAME)
         - name: DEPLOY_ARTIFACT_NAME
           value: $(params.DEPLOY_ARTIFACT_NAME)
-        # - name: ARGS
-        #   value: install --no-package-lock
-      steps:
-        - name: deploy
-          # image: $(params.NODE_IMAGE)
-          script: |
-            cd  "$(workspaces.output.path)/$(params.APP_PATH)" || exit 1
+        - name: SCRIPT
+          value: |
+            cd "$(workspaces.manifest-dir.path)/$(params.APP_PATH)" || exit 1
             oc new-build --name=$(params.DEPLOY_APP_NAME) \
               -l app=$(params.DEPLOY_APP_NAME) --binary=true \
               --image-stream=openshift/java:8 || echo "BC already exists"
@@ -74,7 +72,28 @@ spec:
                 --name $(params.DEPLOY_APP_NAME) || echo "application exists"
             oc expose svc $(params.DEPLOY_APP_NAME) || echo "route exists"              
       runAfter:
+        - build-binary
+    - name: build-binary
+      taskRef:
+        name: maven-task
+        kind: Task
+      workspaces:
+        - name: source
+          workspace: shared
+        - name: secret
+          workspace: maven_config
+      params:
+        - name: CONTEXT
+          value: $(params.APP_PATH)
+        - name: APP_PATH
+          value: $(params.APP_PATH)
+        - name: DEPLOY_APP_NAME
+          value: $(params.DEPLOY_APP_NAME)
+        - name: DEPLOY_ARTIFACT_NAME
+          value: $(params.DEPLOY_ARTIFACT_NAME)
+      runAfter:
         - fetch-repository
+
     # - name: skopeo-copy
     #   taskRef:
     #     # TODO
