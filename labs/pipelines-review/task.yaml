@@ -6,11 +6,6 @@ spec:
   results:
     - name: output
   params:
-  - name: CONTEXT
-    type: string
-    default: "."
-  # - name: ARGS
-  #   type: string
   - name: NODE_IMAGE
     type: string
     default: "registry.access.redhat.com/ubi8/openjdk-11:1.16-3"

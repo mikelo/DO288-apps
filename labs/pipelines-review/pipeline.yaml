@@ -52,8 +52,6 @@ spec:
         - name: manifest-dir
           workspace: shared
       params:
-        - name: CONTEXT
-          value: $(params.APP_PATH)
         - name: APP_PATH
           value: $(params.APP_PATH)
         - name: DEPLOY_APP_NAME
