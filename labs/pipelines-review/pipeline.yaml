@@ -1,3 +1,4 @@
+# https://access.redhat.com/solutions/7092831 in case of issues with the deletion of pipelineruns
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
