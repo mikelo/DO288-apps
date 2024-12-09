@@ -1,0 +1,8 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    service: redis
+  name: redis
+spec:
+  replicas: 3

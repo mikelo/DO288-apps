@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    service: web
+spec:
+  replicas: 2
+  resources:
+    limits:
+      memory: 400Mi
+      cpu: 200m
